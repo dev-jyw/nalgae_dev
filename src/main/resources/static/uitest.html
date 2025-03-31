@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>WMS 거래처관리</title>
+
+  <link rel="stylesheet" href="ext/classic/theme-triton/resources/theme-triton-all.css">
+  <script src="ext/ext-all.js"></script>
+</head>
+<body>
+<script>
+Ext.onReady(function () {
+    const detailForm = Ext.create('Ext.form.Panel', {
+        region: 'south',
+        xtype: 'form',
+        title: '거래처 정보',
+        height: 300,
+        bodyPadding: 10,
+        layout: {
+            type: 'table',
+            columns: 4
+        },
+        defaults: {
+            xtype: 'textfield',
+            margin: 5
+        },
+        items: [
+            { fieldLabel: '거래처코드', name: 'code' },
+            { fieldLabel: '사업자등록번호', name: 'bizNo' },
+            { fieldLabel: '대표자명', name: 'ceo' },
+            { fieldLabel: '전화번호', name: 'phone' },
+            { fieldLabel: 'FAX', name: 'fax' },
+            { fieldLabel: 'E-MAIL1', name: 'email1' },
+            { fieldLabel: 'E-MAIL2', name: 'email2' },
+            { fieldLabel: '지역', name: 'area' },
+            { fieldLabel: '우편번호', name: 'zip' },
+            { fieldLabel: '주소', name: 'address' },
+            { fieldLabel: '상세주소', name: 'addressDetail', colspan: 2 },
+            { fieldLabel: '출고서', name: 'shipment' },
+            { fieldLabel: '메모', name: 'memo', colspan: 2 }
+        ],
+        buttons: [
+            { text: '신규', handler: () => detailForm.getForm().reset() },
+            { text: '저장', handler: () => alert('저장 로직 연결 예정') },
+            { text: '삭제', handler: () => alert('삭제 로직 연결 예정') }
+        ]
+    });
+
+    const store = Ext.create('Ext.data.Store', {
+        fields: ['no', 'code', 'name', 'area', 'phone', 'fax', 'publisher', 'shipment', 'bizNo', 'ceo', 'email1', 'email2', 'zip', 'address', 'addressDetail', 'memo'],
+        data: [
+            { no: 1, code: '96753', name: '(미입력)한국기술출판사', area: '남가좌', phone: '010-8734-0773', fax: '02-736-8696', publisher: '고현석', shipment: '1-1팀', bizNo: '127-95-93547', ceo: '홍길동', email1: 'example1@test.com', email2: 'example2@test.com', zip: '12345', address: '서울시 중구', addressDetail: '101동 303호', memo: '테스트1' },
+            { no: 2, code: '96513', name: '(미입력)한빛미디어', area: '강남구', phone: '010-1234-5678', fax: '02-123-4567', publisher: '김한빛', shipment: '2-1팀', bizNo: '111-22-33333', ceo: '김미디어', email1: 'hanbit@test.com', email2: '', zip: '54321', address: '서울시 강남구', addressDetail: '202호', memo: '' },
+            { no: 3, code: '96515', name: '(미입력)위키북스', area: '마포구', phone: '010-2222-3333', fax: '02-3333-4444', publisher: '이위키', shipment: '1-2팀', bizNo: '444-55-66666', ceo: '위키이사', email1: '', email2: '', zip: '11111', address: '서울시 마포구', addressDetail: 'A동 101호', memo: '' },
+            { no: 4, code: '86514', name: '(미입력)길벗출판사', area: '종로구', phone: '010-4444-5555', fax: '02-5555-6666', publisher: '박길벗', shipment: '3-1팀', bizNo: '777-88-99999', ceo: '박이사', email1: '', email2: '', zip: '', address: '', addressDetail: '', memo: '' },
+            { no: 5, code: '86145', name: '(미입력)프리미엄북스', area: '은평구', phone: '010-5555-6666', fax: '02-7777-8888', publisher: '최프리미엄', shipment: '4-1팀', bizNo: '', ceo: '', email1: '', email2: '', zip: '', address: '', addressDetail: '', memo: '' },
+            { no: 6, code: '89991', name: '(미입력)테스트출판사', area: '서초구', phone: '010-6666-7777', fax: '02-9999-0000', publisher: '테스트', shipment: '5-1팀', bizNo: '', ceo: '', email1: '', email2: '', zip: '', address: '', addressDetail: '', memo: '비고 메모' }
+        ]
+    });
+
+    Ext.create('Ext.container.Viewport', {
+        layout: 'border',
+        items: [
+            {
+                region: 'north',
+                xtype: 'toolbar',
+                items: [
+                    { xtype: 'tbtext', text: '기초정보', style: 'font-weight:bold;padding:0 10px' }, '-',
+                    '주문', '입고', '검수', '재고', '업무', '통계',
+                    '파레트수불', '관리', '급여', '방문', '연구소', '납개획', '제안'
+                ]
+            },
+            {
+                region: 'west',
+                xtype: 'treepanel',
+                title: '도서/거래처 정보',
+                width: 220,
+                split: true,
+                collapsible: true,
+                rootVisible: false,
+                store: {
+                    type: 'tree',
+                    root: {
+                        expanded: true,
+                        children: [
+                            {
+                                text: '도서정보', expanded: true, children: [
+                                    { text: '- 도서서지정보 그리드 수정', leaf: true },
+                                    { text: '- 전시도서 선택그리드', leaf: true },
+                                    { text: '- 전시도서선택결과', leaf: true }
+                                ]
+                            },
+                            {
+                                text: '거래처정보', expanded: true, children: [
+                                    { text: '- 거래처기본정보관리', leaf: true },
+                                    { text: '- 거래처도서정보관리', leaf: true },
+                                    { text: '- 거래처도서재고현황', leaf: true },
+                                    { text: '- 거래처PISS조회', leaf: true },
+                                    { text: '- 거래처PISS조회결과', leaf: true }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                region: 'center',
+                layout: 'border',
+                items: [
+                    {
+                        region: 'north',
+                        xtype: 'form',
+                        bodyPadding: 5,
+                        layout: { type: 'table', columns: 6 },
+                        defaults: {
+                            xtype: 'combobox',
+                            margin: 5,
+                            editable: false,
+                            store: ['전체'],
+                            value: '전체'
+                        },
+                        items: [
+                            { fieldLabel: '음악대 구분' },
+                            { fieldLabel: '출판구분' },
+                            { fieldLabel: '거래처형태' },
+                            { fieldLabel: '지역' },
+                            { fieldLabel: '납품책형태' },
+                            { fieldLabel: '발주책형태' },
+                            { fieldLabel: '출판사리턴형태' },
+                            { fieldLabel: '블루투스프린터', colspan: 2 },
+                            { fieldLabel: '사용여부', xtype: 'checkboxfield', boxLabel: '사용' },
+                            { xtype: 'textfield', fieldLabel: '검색어 입력', colspan: 2, width: 200 },
+                            { xtype: 'button', text: '조회', colspan: 2, width: 80 }
+                        ]
+                    },
+                    {
+                        region: 'center',
+                        xtype: 'panel',
+                        layout: 'fit',
+                        tbar: [
+                            '->',
+                            { xtype: 'button', text: '추가' },
+                            { xtype: 'button', text: '수정' },
+                            { xtype: 'button', text: '삭제' },
+                            { xtype: 'button', text: '엑셀출력' }
+                        ],
+                        items: [
+                            {
+                                xtype: 'grid',
+                                title: '거래처 목록',
+                                store: store,
+                                columns: [
+                                    { text: '번호', dataIndex: 'no', width: 50 },
+                                    { text: '거래처코드', dataIndex: 'code', flex: 1 },
+                                    { text: '거래처명', dataIndex: 'name', flex: 2 },
+                                    { text: '지역', dataIndex: 'area', flex: 1 },
+                                    { text: '전화번호', dataIndex: 'phone', flex: 1 },
+                                    { text: '팩스번호', dataIndex: 'fax', flex: 1 },
+                                    { text: '출판사', dataIndex: 'publisher', flex: 1 },
+                                    { text: '출고서', dataIndex: 'shipment', flex: 1 }
+                                ],
+                                listeners: {
+                                    itemclick: function (grid, record) {
+                                        detailForm.getForm().setValues(record.data);
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    detailForm
+                ]
+            }
+        ]
+    });
+});
+</script>
+</body>
+</html>
