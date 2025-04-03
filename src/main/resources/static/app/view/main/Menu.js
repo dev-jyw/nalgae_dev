@@ -105,7 +105,7 @@ Ext.define('GoldWings.view.main.Menu', {
           height: 50,
           itemId: 'bottomTabBar',
           tabPosition: 'bottom',
-          plain: true,
+          plain: false,
           border: true,
           bodyBorder: false,
           items: []
