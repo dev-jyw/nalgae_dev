@@ -120,6 +120,17 @@ Ext.define('GoldWings.view.main.Menu', {
       const topTabPanel = this.down('#mainTopTabPanel');
       const contentPanel = this.down('#mainContentPanel');
       const bottomTabBar = this.down('#bottomTabBar');
+      bottomTabBar.on('tabchange', function (tabPanel, newTab) {
+        const menuId = newTab.itemId;
+        const menuNm = newTab.title;
+
+        contentPanel.update(`
+          <div style="padding:10px;">
+            <h3>샘플 화면 - ${menuNm} (${menuId})</h3>
+            <p>여기에 ${menuNm} 화면의 내용을 추가할 수 있습니다.</p>
+          </div>
+        `);
+      });
 
       // 트리 노드 클릭 시
       tree.on('itemclick', function (view, record) {
