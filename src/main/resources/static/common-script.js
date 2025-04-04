@@ -7,12 +7,12 @@ function loadProgram(menuId) {
     const scriptPath = `/app/view/${folder}/${lowerId}.js`;
   
     // 컴포넌트 이름 예: GoldWings.view.wina.WINA1003
-    const className = `GoldWings.view.${folder}.${menuId}`;
-  
+    const className = `GoldWings.view.${folder}.${lowerId}`;
+
+    contentPanel.removeAll(true);
     // 이미 정의된 경우에는 바로 생성
     if (Ext.ClassManager.isCreated(className)) {
       const cmp = Ext.create(className);
-      contentPanel.removeAll();
       contentPanel.add(cmp);
     } else {
       // 동적 로딩
@@ -20,7 +20,6 @@ function loadProgram(menuId) {
         url: scriptPath,
         onLoad: function () {
           const cmp = Ext.create(className);
-          contentPanel.removeAll();
           contentPanel.add(cmp);
         },
         onError: function () {
