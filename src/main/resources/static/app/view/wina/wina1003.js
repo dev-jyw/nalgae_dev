@@ -1,13 +1,12 @@
-Ext.define('GoldWings.view.wina.WINA1003', {
+Ext.define('GoldWings.view.wina.wina1003', {
     extend: 'Ext.panel.Panel',
     xtype: 'wina1003',
-    title: '도서 입고 관리',
     layout: 'fit',
   
     items: [
       {
         xtype: 'grid',
-        title: '입고 도서 목록',
+        title: '입고 확인 조회',
         store: {
           fields: ['bookId', 'title', 'author', 'quantity'],
           data: [

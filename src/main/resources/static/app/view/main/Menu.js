@@ -97,7 +97,13 @@ Ext.define('GoldWings.view.main.Menu', {
           region: 'center',
           xtype: 'panel',
           itemId: 'mainContentPanel',
-          html: '<div style="padding:10px;"><p><h2>초기화면</h2></p>여기에 화면 내용이 출력됩니다.</div>'
+          layout: 'fit',
+          items: [
+            {
+              xtype: 'component',
+              html: '<div style="padding:10px;"><p><h2>초기화면</h2></p>여기에 화면 내용이 출력됩니다.</div>'
+            }
+          ]
         },
         {
           region: 'south',
@@ -122,38 +128,30 @@ Ext.define('GoldWings.view.main.Menu', {
       const bottomTabBar = this.down('#bottomTabBar');
       bottomTabBar.on('tabchange', function (tabPanel, newTab) {
         const menuId = newTab.itemId;
-        const menuNm = newTab.title;
-
-        contentPanel.update(`
-          <div style="padding:10px;">
-            <h3>샘플 화면 - ${menuNm} (${menuId})</h3>
-            <p>여기에 ${menuNm} 화면의 내용을 추가할 수 있습니다.</p>
-          </div>
-        `);
+        loadProgram(menuId);
       });
 
       // 트리 노드 클릭 시
       tree.on('itemclick', function (view, record) {
         if (record.isLeaf()) {
-          const menuId = record.getId();
+          const menuId = record.getId();         // 예: WINA1003
           const menuNm = record.get('text');
-
+      
           let bottomTab = bottomTabBar.child('#' + menuId);
           if (!bottomTab) {
             bottomTab = bottomTabBar.add({
               title: menuNm,
               itemId: menuId,
-              closable: true
+              closable: true,
+              listeners: {
+                activate: function () {
+                  loadProgram(menuId); // ▶️ 여기서 실제 프로그램 로딩
+                }
+              }
             });
           }
           bottomTabBar.setActiveTab(bottomTab);
-
-          contentPanel.update(`
-            <div style="padding:10px;">
-              <h3>샘플 화면 - ${menuNm} (${menuId})</h3>
-              <p>여기에 ${menuNm} 화면의 내용을 추가할 수 있습니다.</p>
-            </div>
-          `);
+          loadProgram(menuId); // 최초 클릭 시에도 로딩
         }
       });
 
